@@ -38,11 +38,10 @@
 #include <proto/commodities.h>
 #include <inline/commodities.h>
 
-#include "amiga_c2p_aga.h"
+//#include "amiga_c2p_aga.h"
 
-
-
-
+#define c2p8_stub WritePixelArray8
+#define c2p8_deinit_stub(...)
 
 
 static const OSystem::GraphicsMode s_supportedGraphicsModes[] = {
