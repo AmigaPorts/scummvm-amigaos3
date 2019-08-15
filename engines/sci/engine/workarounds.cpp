@@ -474,6 +474,7 @@ const SciWorkaroundEntry uninitializedReadWorkarounds[] = {
 	{ GID_QFG1,           -1,   210,  0,          "Encounter", "init",           sig_uninitread_qfg1_1,     0,     0, { WORKAROUND_FAKE,   0 } }, // qfg1/hq1: going to the brigands hideout
 	{ GID_QFG1VGA,        16,    16,  0,        "lassoFailed", "changeState",                     NULL,    -1,    -1, { WORKAROUND_FAKE,   0 } }, // qfg1vga: casting the "fetch" spell in the screen with the flowers, temps 0 and 1 - bug #5309
 	{ GID_QFG1VGA,        -1,   210,  0,          "Encounter", "init",        sig_uninitread_qfg1vga_1,     0,     0, { WORKAROUND_FAKE,   0 } }, // qfg1vga: going to the brigands hideout - bug #5515
+	{ GID_QFG1VGA,        58,    58,  0,                 NULL, "doVerb",                          NULL,     0,     0, { WORKAROUND_FAKE,  18 } }, // qfg1vga: casting "detect magic" at giant's cave, temp 0 used instead of spell number. object is "rm58" but Mac version has blank names
 	{ GID_QFG1VGA,        96,    96,  0,                 NULL, "changeState",                     NULL,     0,     0, { WORKAROUND_FAKE,   0 } }, // qfg1vga mac: when yorick throws an object
 	{ GID_QFG1VGA,       320,   320,  0,                 NULL, "changeState",                     NULL,     0,     0, { WORKAROUND_FAKE,   0 } }, // qfg1vga mac: first time entering room 320 when centaur offers fruits and vegetables
 	{ GID_QFG2,           -1,    71,  0,        "theInvSheet", "doit",                            NULL,     1,     1, { WORKAROUND_FAKE,   0 } }, // accessing the inventory
@@ -495,6 +496,7 @@ const SciWorkaroundEntry uninitializedReadWorkarounds[] = {
 	{ GID_QFG3,          851,    32, -1,            "ProjObj", "doit",                            NULL,     1,     1, { WORKAROUND_FAKE,   0 } }, // near the end, when throwing the spear of death, bug #5282
 	{ GID_QFG4,           -1,    15, -1,     "charInitScreen", "dispatchEvent",                   NULL,     5,     5, { WORKAROUND_FAKE,   0 } }, // floppy version, when viewing the character screen
 	{ GID_QFG4,           -1,    23, -1,     "tellerControls", "dispatchEvent",                   NULL,     6,     6, { WORKAROUND_FAKE,   0 } }, // floppy version, when using keyboard controls in the conversation interface
+	{ GID_QFG4,           -1,    50, -1,     "sSearchMonster", "changeState",                     NULL,     2,     2, { WORKAROUND_FAKE,   0 } }, // CD version, when searching a chernovy or revenant with speech disabled
 	{ GID_QFG4,           -1, 64917, -1,       "controlPlane", "setBitmap",                       NULL,     3,     3, { WORKAROUND_FAKE,   0 } }, // floppy version, when entering the game menu
 	{ GID_QFG4,           -1, 64917, -1,              "Plane", "setBitmap",                       NULL,     3,     3, { WORKAROUND_FAKE,   0 } }, // floppy version, happens sometimes in fight scenes
 	{ GID_QFG4,          380,    80, -1,           "myButton", "select",                          NULL,     2,     2, { WORKAROUND_FAKE,   1 } }, // CD version, when clicking on a puzzle piece for the keyhole scrambled picture puzzle

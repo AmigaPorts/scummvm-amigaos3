@@ -39,8 +39,6 @@
 #define BLADERUNNER_DEBUG_CONSOLE 0
 #define BLADERUNNER_ORIGINAL_SETTINGS 0
 #define BLADERUNNER_ORIGINAL_BUGS 0
-#define BLADERUNNER_RESTORED_CUT_CONTENT 1
-
 
 namespace Common {
 struct Event;
@@ -112,10 +110,16 @@ public:
 	static const int kArchiveCount = 12; // +2 to original value (10) to accommodate for SUBTITLES.MIX and one extra resource file, to allow for capability of loading all VQAx.MIX and the MODE.MIX file (debug purposes)
 	static const int kActorCount = 100;
 	static const int kActorVoiceOver = kActorCount - 1;
+	// Incremental number to keep track of significant revisions of the ScummVM bladerunner engine
+	// that could potentially introduce incompatibilities with old save files or require special actions to restore compatibility
+	// This is stored in game global variable "kVariableGameVersion"
+	// Original (classic) save game files will have version number of 0
+	static const int kBladeRunnerScummVMVersion = 1; // 1: alpha testing (since May 15, 2019)
 
-	bool           _gameIsRunning;
-	bool           _windowIsActive;
-	int            _playerLosesControlCounter;
+	bool _gameIsRunning;
+	bool _windowIsActive;
+	int  _playerLosesControlCounter;
+
 	Common::String   _languageCode;
 	Common::Language _language;
 
@@ -194,14 +198,16 @@ public:
 	bool _actorIsSpeaking;
 	bool _actorSpeakStopIsRequested;
 	bool _gameOver;
-	int  _gameAutoSave;
+	int  _gameAutoSaveTextId;
+	bool _gameIsAutoSaving;
 	bool _gameIsLoading;
 	bool _sceneIsLoading;
 	bool _vqaIsPlaying;
 	bool _vqaStopIsRequested;
-	bool _subtitlesEnabled; // tracks the state of whether subtitles are enabled or disabled from ScummVM GUI option or KIA checkbox (the states are synched)
+	bool _subtitlesEnabled;  // tracks the state of whether subtitles are enabled or disabled from ScummVM GUI option or KIA checkbox (the states are synched)
 	bool _sitcomMode;
 	bool _shortyMode;
+	bool _cutContent;
 
 	int _walkSoundId;
 	int _walkSoundVolume;
@@ -274,6 +280,7 @@ public:
 
 	void gameWaitForActive();
 	void loopActorSpeaking();
+	void loopQueuedDialogueStillPlaying();
 
 	void outtakePlay(int id, bool no_localization, int container = -1);
 
@@ -289,10 +296,10 @@ public:
 
 	bool playerHasControl();
 	void playerLosesControl();
-	void playerGainsControl();
+	void playerGainsControl(bool force = false);
 	void playerDied();
 
-	bool saveGame(Common::WriteStream &stream, const Graphics::Surface &thumbnail);
+	bool saveGame(Common::WriteStream &stream, Graphics::Surface &thumbnail);
 	bool loadGame(Common::SeekableReadStream &stream);
 	void newGame(int difficulty);
 	void autoSaveGame(int textId, bool endgame);
@@ -306,8 +313,13 @@ public:
 	Common::String getTargetName() const;
 };
 
-static inline const Graphics::PixelFormat createRGB555() {
-	return Graphics::PixelFormat(2, 5, 5, 5, 0, 10, 5, 0, 0);
+static inline const Graphics::PixelFormat gameDataPixelFormat() {
+	return Graphics::PixelFormat(2, 5, 5, 5, 1, 10, 5, 0, 15);
+}
+
+static inline const Graphics::PixelFormat screenPixelFormat() {
+	// Should be a format supported by Android port
+	return Graphics::PixelFormat(2, 5, 5, 5, 1, 11, 6, 1, 0);
 }
 
 void blit(const Graphics::Surface &src, Graphics::Surface &dst);

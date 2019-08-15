@@ -86,7 +86,7 @@ protected:
 	/**
 	  * Returns true whether a given feature is supported by the engine
 	  */
-	virtual bool hasFeature(EngineFeature f) const;
+	virtual bool hasFeature(EngineFeature f) const override;
 
 	/**
 	 * Setup the video mode
@@ -115,10 +115,11 @@ public:
 	Windows *_windows;
 	bool _copySelect;
 	bool _terminated;
-	void (*gli_unregister_obj)(void *obj, uint objclass, gidispatch_rock_t objrock);
-	gidispatch_rock_t (*gli_register_arr)(void *array, uint len, const char *typecode);
-	void (*gli_unregister_arr)(void *array, uint len, const char *typecode, gidispatch_rock_t objrock);
 
+	gidispatch_rock_t(*gli_register_obj)(void *obj, uint objclass);
+	void(*gli_unregister_obj)(void *obj, uint objclass, gidispatch_rock_t objrock);
+	gidispatch_rock_t(*gli_register_arr)(void *array, uint len, const char *typecode);
+	void(*gli_unregister_arr)(void *array, uint len, const char *typecode, gidispatch_rock_t objrock);
 public:
 	GlkEngine(OSystem *syst, const GlkGameDescription &gameDesc);
 	virtual ~GlkEngine();
@@ -136,16 +137,6 @@ public:
 	virtual bool canSaveGameStateCurrently() override {
 		return true;
 	}
-
-	/**
-	 * Returns the bitset of game features
-	 */
-	uint32 getFeatures() const;
-
-	/**
-	 * Returns whether the game is a demo
-	 */
-	bool isDemo() const;
 
 	/**
 	 * Returns the language
@@ -220,6 +211,11 @@ public:
 	 * Generate a beep
 	 */
 	void beep();
+
+	/**
+	 * Get a random number
+	 */
+	uint getRandomNumber(uint max) { return _random.getRandomNumber(max); }
 };
 
 extern GlkEngine *g_vm;

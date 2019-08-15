@@ -31,13 +31,16 @@ amigaos3dist: $(EXECUTABLE)
 	mkdir -p $(AMIGAOSPATH)/themes
 	mkdir -p $(AMIGAOSPATH)/extras
 	$(STRIP) $(EXECUTABLE) -g --strip-unneeded -o $(AMIGAOSPATH)/$(EXECUTABLE)
+	if [ -f test/runner ]; then \
+		$(STRIP) test/runner -g --strip-unneeded -o $(AMIGAOSPATH)/TestRunner; \
+	fi
 	cp ${srcdir}/backends/platform/amigaos3/overlay* $(AMIGAOSPATH)/
 	cp ${srcdir}/icons/scummvm_drawer.info $(AMIGAOSPATH).info
 	cp ${srcdir}/icons/scummvm.info $(AMIGAOSPATH)/$(EXECUTABLE).info
 	cp $(DIST_FILES_THEMES) $(AMIGAOSPATH)/themes/
-ifdef DIST_FILES_ENGINEDATA
-	cp $(DIST_FILES_ENGINEDATA) $(AMIGAOSPATH)/extras/
-endif
+	for i in $(DIST_FILES_ENGINEDATA); do \
+		cp $$i $(AMIGAOSPATH)/extras/ ; \
+	done
 	cat ${srcdir}/README | sed -f ${srcdir}/dists/amiga/convertRM.sed > README.conv
 # AmigaOS's shell is not happy with indented comments, thus don't do it.
 # AREXX seems to have problems when ${srcdir} is '.'. It will break with a
