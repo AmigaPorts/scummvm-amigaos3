@@ -39,7 +39,7 @@
 static int wbClosed = 0;
 
 struct CxBase* CxBase = NULL;
-extern struct Library* CyberGfxBase = NULL;
+extern struct Library* CyberGfxBase;// = NULL;
 struct GfxBase* GfxBase = NULL;
 struct Library* IconBase = NULL;
 struct IntuitionBase* IntuitionBase = NULL;
@@ -58,10 +58,10 @@ static void unload_libraries(void) {
 		CxBase = NULL;
 	}
 
-	//    if (CyberGfxBase != NULL) {
-	//        CloseLibrary((struct Library*) CyberGfxBase);
-	//        CyberGfxBase = NULL;
-	//    }
+	    if (CyberGfxBase != NULL) {
+	        CloseLibrary((struct Library*) CyberGfxBase);
+	        CyberGfxBase = NULL;
+	    }
 
 	if (GfxBase != NULL) {
 		CloseLibrary((struct Library*)GfxBase);
@@ -114,11 +114,11 @@ static void load_libraries(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	//    CyberGfxBase = (struct Library*) OpenLibrary("cybergraphics.library", 0);
-	//    if (CyberGfxBase == NULL) {
-	//        fprintf(stderr, "Unable to load cybergraphics.library!\n");
-	//        exit(EXIT_FAILURE);
-	//    }
+	    CyberGfxBase = (struct Library*) OpenLibrary("cybergraphics.library", 0);
+	    if (CyberGfxBase == NULL) {
+	        fprintf(stderr, "Unable to load cybergraphics.library!\n");
+	        exit(EXIT_FAILURE);
+	    }
 
 	GfxBase = (struct GfxBase*)OpenLibrary("graphics.library", 0);
 	if (GfxBase == NULL) {

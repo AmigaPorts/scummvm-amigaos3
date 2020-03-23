@@ -389,10 +389,7 @@ OSystem::MutexRef OSystem_AmigaOS3::createMutex() {
 
 	return (MutexRef)sem;
 }
+
 void OSystem_AmigaOS3::displayActivityIconOnOSD(const Graphics::Surface *icon) {
 	// TODO - UNIMPLEMENTED
-}
-
-struct Window *OSystem_AmigaOS3::getHardwareWindow() {
-	return _hardwareWindow;
 }

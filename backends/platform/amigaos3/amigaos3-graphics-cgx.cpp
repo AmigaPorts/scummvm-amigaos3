@@ -40,6 +40,8 @@
 
 #include <stdio.h>
 
+#define RTG 1
+
 struct Library *CyberGfxBase;
 
 static UWORD emptypointer[] = {
@@ -334,7 +336,7 @@ bool OSystem_AmigaOS3::loadGFXMode() {
 	return true;
 }
 
-struct Screen *OSystem_AmigaOS3::createHardwareScreen(uint width, uint height) {
+struct Screen *OSystem_AmigaOS3::createHardwareScreen(uint16 width, uint16 height) {
 	// Create the hardware screen.
 	struct Screen *screen = NULL;
 	ULONG modeId = INVALID_ID;
@@ -387,7 +389,7 @@ struct Screen *OSystem_AmigaOS3::createHardwareScreen(uint width, uint height) {
 	return screen;
 }
 
-struct Window *OSystem_AmigaOS3::createHardwareWindow(uint width, uint height, struct Screen *screen) {
+struct Window *OSystem_AmigaOS3::createHardwareWindow(uint16 width, uint16 height, struct Screen *screen) {
 	return OpenWindowTags(NULL, WA_Left, 0, WA_Top, 0, WA_Width, width, WA_Height, height, SA_AutoScroll, FALSE,
 						  WA_CustomScreen, (ULONG)screen, WA_Backdrop, TRUE, WA_Borderless, TRUE, WA_DragBar, FALSE,
 						  WA_Activate, TRUE, WA_SimpleRefresh, TRUE, WA_NoCareRefresh, TRUE, WA_ReportMouse, TRUE,
@@ -446,7 +448,7 @@ void OSystem_AmigaOS3::setPalette(const byte *colors, uint start, uint num) {
 	}
 }
 
-void OSystem_AmigaOS3::grabPalette(byte *colors, uint start, uint num) {
+void OSystem_AmigaOS3::grabPalette(byte *colors, uint start, uint num) const {
 #ifndef NDEBUG
 	assert(colors);
 #endif
@@ -465,7 +467,7 @@ void OSystem_AmigaOS3::updatePalette() {
 	uint j = 1;
 	byte *color = (byte *)(_currentPalette + 3 * _paletteDirtyStart);
 
-	for (uint i = _paletteDirtyStart; i < _paletteDirtyEnd; i++) {
+	for (uint16 i = _paletteDirtyStart; i < _paletteDirtyEnd; i++) {
 		_agaPalette[j] = color[0] << 24;
 		_agaPalette[j + 1] = color[1] << 24;
 		_agaPalette[j + 2] = color[2] << 24;
@@ -474,7 +476,7 @@ void OSystem_AmigaOS3::updatePalette() {
 		color += 3;
 	}
 
-	uint numberOfEntries = (_paletteDirtyEnd - _paletteDirtyStart);
+	uint16 numberOfEntries = (_paletteDirtyEnd - _paletteDirtyStart);
 
 	_agaPalette[0] = (numberOfEntries << 16) + _paletteDirtyStart;
 
@@ -892,7 +894,7 @@ void OSystem_AmigaOS3::setMouseCursor(const void *buf, uint w, uint h, int hotsp
 	CopyMem((void *)buf, _mouseCursor.surface.getPixels(), w * h);
 }
 
-void OSystem_AmigaOS3::setMouseCursorPosition(uint x, uint y) {
+void OSystem_AmigaOS3::setMouseCursorPosition(uint16 x, uint16 y){
 	MouseCursor oldMouseCursor = _mouseCursor;
 
 	_mouseCursor.x = x;
@@ -1026,8 +1028,4 @@ void OSystem_AmigaOS3::undrawMouse() {
 		dst += pitch;
 		src += _mouseCursorMask.w;
 	}
-}
-
-void OSystem_AmigaOS3::displayActivityIconOnOSD(const Graphics::Surface *icon) {
-	// TODO - UNIMPLEMENTED
 }

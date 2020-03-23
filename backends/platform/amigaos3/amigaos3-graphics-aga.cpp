@@ -880,6 +880,10 @@ void OSystem_AmigaOS3::undrawMouse() {
 	}
 }
 
+struct Window *OSystem_AmigaOS3::getHardwareWindow() {
+	return _hardwareWindow;
+}
+
 /*UBYTE *OSystem_AmigaOS3::scaleScreen() {
 
 		byte *src;
