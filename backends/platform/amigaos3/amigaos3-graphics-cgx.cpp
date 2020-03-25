@@ -40,8 +40,6 @@
 
 #include <stdio.h>
 
-#define RTG 1
-
 struct Library *CyberGfxBase;
 
 static UWORD emptypointer[] = {
