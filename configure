@@ -799,6 +799,7 @@ prepare_engine_build_strings() {
 		_engines_built_wip="${_engines_built_wip}#$string@"
 	fi
 
+
 }
 
 # Get the string about building an engine
@@ -3302,7 +3303,7 @@ if test -n "$_host"; then
 #			append_var CXXFLAGS "-fdebug-prefix-map=$_srcdir=source"
 
 			# don't need thread safety for some static objects, no need to link pthread
-			_machine_flags="-noixemul -m68030 -flto -fno-threadsafe-statics"
+			_machine_flags="-noixemul -m68030 -fno-threadsafe-statics"
 			append_var CXXFLAGS "$_machine_flags"
 			append_var LDFLAGS  "$_machine_flags"
 
