@@ -58,7 +58,7 @@ static void unload_libraries(void) {
 		CxBase = NULL;
 	}
 	
-	load_cgx_libraries();
+	unload_cgx_libraries();
 
 	if (GfxBase != NULL) {
 		CloseLibrary((struct Library*)GfxBase);
@@ -110,13 +110,9 @@ static void load_libraries(void) {
 		fprintf(stderr, "Unable to load commodities.library!\n");
 		exit(EXIT_FAILURE);
 	}
-/*
-	CyberGfxBase = (struct Library*) OpenLibrary("cybergraphics.library", 0);
-	if (CyberGfxBase == NULL) {
-		fprintf(stderr, "Unable to load cybergraphics.library!\n");
-		//exit(EXIT_FAILURE);
-	}
-*/
+	
+	load_cgx_libraries();
+
 	GfxBase = (struct GfxBase*)OpenLibrary("graphics.library", 0);
 	if (GfxBase == NULL) {
 		fprintf(stderr, "Unable to load graphics.library!\n");
