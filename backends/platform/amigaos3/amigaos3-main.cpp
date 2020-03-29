@@ -51,6 +51,7 @@ struct Device* TimerBase = NULL;
 struct timerequest *TimerIOReq = NULL;
 ULONG eclocks_per_ms; /* EClock frequency in 1000Hz */
 void load_cgx_libraries(void);
+void unload_cgx_libraries(void);
 
 static void unload_libraries(void) {
 	if (CxBase != NULL) {
