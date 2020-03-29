@@ -39,7 +39,6 @@
 static int wbClosed = 0;
 
 struct CxBase* CxBase = NULL;
-extern struct Library* CyberGfxBase;// = NULL;
 struct GfxBase* GfxBase = NULL;
 struct Library* IconBase = NULL;
 struct IntuitionBase* IntuitionBase = NULL;
@@ -51,17 +50,15 @@ struct MsgPort* TimerMP = NULL;
 struct Device* TimerBase = NULL;
 struct timerequest *TimerIOReq = NULL;
 ULONG eclocks_per_ms; /* EClock frequency in 1000Hz */
+void load_cgx_libraries(void);
 
 static void unload_libraries(void) {
 	if (CxBase != NULL) {
 		CloseLibrary((struct Library*)CxBase);
 		CxBase = NULL;
 	}
-
-	if (CyberGfxBase != NULL) {
-		CloseLibrary((struct Library*) CyberGfxBase);
-		CyberGfxBase = NULL;
-	}
+	
+	load_cgx_libraries();
 
 	if (GfxBase != NULL) {
 		CloseLibrary((struct Library*)GfxBase);
@@ -113,13 +110,13 @@ static void load_libraries(void) {
 		fprintf(stderr, "Unable to load commodities.library!\n");
 		exit(EXIT_FAILURE);
 	}
-
+/*
 	CyberGfxBase = (struct Library*) OpenLibrary("cybergraphics.library", 0);
 	if (CyberGfxBase == NULL) {
 		fprintf(stderr, "Unable to load cybergraphics.library!\n");
 		//exit(EXIT_FAILURE);
 	}
-
+*/
 	GfxBase = (struct GfxBase*)OpenLibrary("graphics.library", 0);
 	if (GfxBase == NULL) {
 		fprintf(stderr, "Unable to load graphics.library!\n");
@@ -174,7 +171,8 @@ static void load_libraries(void) {
 
 __stdargs int main(int argcWb, char const * argvWb[]) {
 	load_libraries();
-
+	load_cgx_libraries();
+	
 	char const * const argvDefault[] = {"ScummVM", NULL};
 
 	char const * const *argv = argvDefault;

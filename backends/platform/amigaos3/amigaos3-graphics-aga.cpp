@@ -54,6 +54,9 @@ bool OSystem_AmigaOS3::hasFeature(OSystem::Feature f) {
 	return false;
 }
 
+void load_cgx_libraries(void) {
+}
+
 void OSystem_AmigaOS3::setFeatureState(OSystem::Feature f, bool enable) {
 #ifndef NDEBUG
 	debug(4, "OSystem_AmigaOS3::setFeatureState()");
