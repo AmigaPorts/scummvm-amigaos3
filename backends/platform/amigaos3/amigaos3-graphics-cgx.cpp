@@ -64,7 +64,7 @@ static struct Window *_hardwareOverlayWindow = NULL;
 
 static const OSystem::GraphicsMode s_supportedGraphicsModes[] = {{"1x", "Normal", GFX_NORMAL}, {0, 0, 0}};
 
-static void unload_cgx_libraries();
+void unload_cgx_libraries();
 
 void load_cgx_libraries(void) {
 	atexit(unload_cgx_libraries);
@@ -76,7 +76,7 @@ void load_cgx_libraries(void) {
 	}
 }
 
-static void unload_cgx_libraries(void) {
+void unload_cgx_libraries(void) {
 
 	if (CyberGfxBase != NULL) {
 		CloseLibrary((struct Library*) CyberGfxBase);
